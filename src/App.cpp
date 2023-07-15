@@ -4,16 +4,18 @@
 #include <string>
 
 namespace efc {
-    void App::listen(const std::string& address, const int& port, const std::string& protocol) {
-        web::uri_builder builder;
-        const utility::string_t host = utility::conversions::to_string_t(protocol + "://" + address);
-        builder.set_host(host);
+    void App::listen(const utility::string_t& address, const utility::string_t& port, const utility::string_t& protocol) {
+        web::uri appUri(protocol + L"://" + address + L":" + port);
 
-        builder.set_port(port);
+        web::uri_builder builder;
+        builder.set_scheme(appUri.scheme());
+        builder.set_host(appUri.host());
+        builder.set_port(appUri.port());
+        builder.set_path(appUri.path());
 
         this->listener = web::http::experimental::listener::http_listener(builder.to_uri());
-        this->listener.open().wait();
 
+        this->listener.open().wait();
         this->listener.support(std::bind(&App::route, this, std::placeholders::_1));
     }
 
@@ -22,6 +24,6 @@ namespace efc {
     }
 
     void App::route(web::http::http_request req){
-        std::cout << req.method().c_str() << std::endl;
+        std::wcout << req.method() << std::endl;
     }
 }

@@ -6,6 +6,7 @@ int main(int argc, char const *argv[])
 {
     App app;
 
-    app.listen("0.0.0.0", 3000);
+    app.listen(L"127.0.0.1", L"3000");
+    while (true); // Change to interrupt
     return 0;
 }

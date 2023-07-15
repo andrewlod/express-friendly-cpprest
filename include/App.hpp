@@ -8,7 +8,7 @@
 namespace efc {
     class App : public Router {
     public:
-        void listen(const std::string& address, const int& port, const std::string& protocol = "http");
+        void listen(const utility::string_t& address, const utility::string_t& port, const utility::string_t& protocol = L"http");
         void close();
 
         void route(web::http::http_request req);
