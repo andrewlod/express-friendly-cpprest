@@ -1,0 +1,37 @@
+{
+    "tasks": [
+        {
+            "label": "CMake",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "command": "cmake \"MinGW Makefiles\"  ${workspaceRoot}",
+        },
+        {
+            "label": "Make",
+            "type": "shell",
+            "command": "mingw32-make.exe",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "args": [
+                "-j 8"
+            ],
+            "dependsOn":["CMake"]
+        },
+        {
+            "label": "build",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}/build"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": ["Make"]
+        }
+    ],
+    "version": "2.0.0"
+}
