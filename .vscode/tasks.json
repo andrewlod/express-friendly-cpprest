@@ -6,7 +6,7 @@
             "options": {
                 "cwd": "${workspaceRoot}/build"
             },
-            "command": "cmake \"MinGW Makefiles\"  ${workspaceRoot}",
+            "command": "cmake \"MinGW Makefiles\" -DVCPKG_PATH:STRING=\"D:/Usuario/vcpkg\" ${workspaceRoot}",
         },
         {
             "label": "Make",
@@ -16,7 +16,8 @@
                 "cwd": "${workspaceRoot}/build"
             },
             "args": [
-                "-j 8"
+                "-j",
+                "8"
             ],
             "dependsOn":["CMake"]
         },
