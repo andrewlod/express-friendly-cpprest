@@ -6,7 +6,7 @@
             "options": {
                 "cwd": "${workspaceRoot}/build"
             },
-            "command": "cmake \"MinGW Makefiles\" -DVCPKG_PATH:STRING=\"D:/Usuario/vcpkg\" ${workspaceRoot}",
+            "command": "cmake \"MinGW Makefiles\" -DVCPKG_PATH:STRING=\"D:/Usuario/vcpkg\" -DCMAKE_TOOLCHAIN_FILE=D:/Usuario/vcpkg/scripts/buildsystems/vcpkg.cmake ${workspaceRoot}",
         },
         {
             "label": "Make",

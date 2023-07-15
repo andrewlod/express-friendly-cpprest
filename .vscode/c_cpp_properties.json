@@ -4,14 +4,14 @@
             "name": "Win32",
             "includePath": [
                 "D:/Usuario/vcpkg/installed/x64-windows/include",
-                "${workspaceRoot}"
+                "${workspaceRoot}/include"
             ],
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "databaseFilename": "",
                 "path": [
                     "D:/Usuario/vcpkg/installed/x64-windows/include",
-                    "${workspaceRoot}"
+                    "${workspaceRoot}/include"
                 ]
             },
             "intelliSenseMode": "windows-gcc-x64",
