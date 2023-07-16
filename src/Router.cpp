@@ -24,10 +24,7 @@ namespace efc {
     }
 
     void Router::use(const utility::string_t& path, const std::function<void(Request&)> handler) {
-        this->get(path, handler);
-        this->post(path, handler);
-        this->put(path, handler);
-        this->del(path, handler);
+        this->registerMiddleware(splitPath(path), handler);
     }
 
     void Router::registerRoute(const web::http::method& method, std::queue<utility::string_t> path, const std::function<void(Request&)> handler) {
@@ -50,6 +47,12 @@ namespace efc {
     }
 
     void Router::route(const web::http::method& method, std::queue<utility::string_t> path, std::shared_ptr<Request> req) {
+        if (this->middlewares.size()) {
+            for (int i = 0; i < this->middlewares.size(); i++) {
+                this->middlewares[i](*req);
+            }
+        }
+
         if (path.size() == 0) {
             if (!this->callbacks.count(method)) {
                 req->reply(web::http::status_codes::NotFound);
@@ -71,5 +74,21 @@ namespace efc {
 
         path.pop();
         this->routers[first]->route(method, path, req);
+    }
+
+
+    void Router::registerMiddleware(std::queue<utility::string_t> path, const std::function<void(Request&)> handler) {
+        if (path.size() == 0) {
+            this->middlewares.push_back(handler);
+            return;
+        }
+
+        utility::string_t first = path.front();
+        if (!this->routers.count(first)) {
+            this->routers[first] = std::make_unique<Router>();
+        }
+
+        path.pop();
+        this->routers[first]->registerMiddleware(path, handler);
     }
 }

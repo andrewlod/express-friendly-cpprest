@@ -8,6 +8,9 @@
 namespace efc {
     class App : public Router {
     public:
+        App() {}
+        ~App() {}
+
         void listen(const utility::string_t& address, const utility::string_t& port, const utility::string_t& protocol = L"http");
         void close();
 
