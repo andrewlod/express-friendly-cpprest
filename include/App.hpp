@@ -11,7 +11,7 @@ namespace efc {
         void listen(const utility::string_t& address, const utility::string_t& port, const utility::string_t& protocol = L"http");
         void close();
 
-        void route(web::http::http_request req);
+        void handleRequest(web::http::http_request req);
     private:
         web::http::experimental::listener::http_listener listener;
     };

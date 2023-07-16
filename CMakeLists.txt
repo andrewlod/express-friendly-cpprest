@@ -21,7 +21,7 @@ find_package(cpprestsdk CONFIG REQUIRED)
 file(GLOB SOURCES src/*.cpp)
 file(GLOB HEADER_FILES include/*.hpp)
 
-add_executable("${PROJECT_NAME}" ${SOURCES} ${HEADER_FILES})
+add_executable("${PROJECT_NAME}" ${SOURCES} ${HEADER_FILES} "src/Utils.cpp" "src/Request.cpp")
 
 set(LIBRARIES_INCLUDE_DIRS ${SOURCE_INCLUDE_DIR} ${CPPRESTSDK_INCLUDE_DIR} ${STATIC_INCLUDE__DIR})
 

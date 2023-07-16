@@ -4,7 +4,9 @@
 
 #include <cpprest/http_client.h>
 
+#include <map>
 #include <queue>
+#include <vector>
 #include <string>
 #include <memory>
 #include <functional>
@@ -12,15 +14,20 @@
 namespace efc {
     class Router {
     public:
-        void get(const std::string& path, const std::function<void(Request&)>& handler);
-        void post(const std::string& path, const std::function<void(Request&)>& handler);
-        void put(const std::string& path, const std::function<void(Request&)>& handler);
-        void del(const std::string& path, const std::function<void(Request&)>& handler);
+        void get(const utility::string_t& path, const std::function<void(Request&)> handler);
+        void post(const utility::string_t& path, const std::function<void(Request&)> handler);
+        void put(const utility::string_t& path, const std::function<void(Request&)> handler);
+        void del(const utility::string_t& path, const std::function<void(Request&)> handler);
 
-        void use(const std::string& path, const std::function<void(Request&)>& handler);
+        void use(const utility::string_t& path, const std::function<void(Request&)> handler);
 
-        void route(const web::http::method& method, std::queue<std::string> path, std::unique_ptr<Request> req);
+        void route(const web::http::method& method, std::queue<utility::string_t> path, std::shared_ptr<Request> req);
+        void registerRoute(const web::http::method& method, std::queue<utility::string_t> path, const std::function<void(Request&)> handler);
     private:
-        void registerRoute(const web::http::method& method, const std::string& path, const std::function<void(Request&)>& handler);
+
+        std::map<utility::string_t, std::unique_ptr<Router> > routers;
+        std::map<
+            web::http::method, std::vector<
+                    std::function<void(Request&)> > > callbacks;
     };
 }
