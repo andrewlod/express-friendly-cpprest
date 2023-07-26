@@ -2,6 +2,8 @@
 #include "Utils.hpp"
 #include "Request.hpp"
 
+#include <cpprest/http_msg.h>
+
 #include <memory>
 #include <iostream>
 #include <string>
@@ -26,10 +28,22 @@ namespace efc {
         this->listener.close().wait();
     }
 
+    void App::on_error(std::function<void(Request&)> handler) {
+        this->errorHandler = handler;
+    }
+
     void App::handleRequest(web::http::http_request req) {
         std::shared_ptr<Request> wrappedReq = std::make_shared<Request>(req);
 
         utility::string_t path = web::uri::decode(req.relative_uri().path());
-        this->route(req.method(), splitPath(path), wrappedReq);
+        try {
+            this->route(req.method(), splitPath(path), wrappedReq);
+        }
+        catch (...) {
+            if (this->errorHandler != nullptr)
+                this->errorHandler(*wrappedReq);
+            else
+                wrappedReq->reply(web::http::status_codes::InternalError);
+        }
     }
 }
