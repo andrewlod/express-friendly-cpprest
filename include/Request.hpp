@@ -22,16 +22,17 @@ namespace efc {
         void reply(web::http::status_code statusCode) const;
         void reply(const web::http::http_response& response) const;
 
-        web::json::value extract_json(bool ignore_content_type = false) const;
-        utility::string_t extract_string(bool ignore_content_type = false);
-        utf8string extract_utf8string(bool ignore_content_type = false);
-        utf16string extract_utf16string(bool ignore_content_type = false);
-        std::vector<unsigned char> extract_vector() const;
+        std::shared_ptr<web::json::value> get_json(bool ignore_content_type = false);
+        std::shared_ptr<utility::string_t> get_string(bool ignore_content_type = false);
+        std::shared_ptr<std::vector<unsigned char> > get_vector();
 
         void add_attribute(const std::string& key, std::shared_ptr<RequestObject> value);
         std::shared_ptr<RequestObject> get_attribute(const std::string& key);
 
     private:
         std::map<std::string, std::shared_ptr<RequestObject> > attributes;
+        std::shared_ptr<web::json::value> jsonBody;
+        std::shared_ptr<utility::string_t> stringBody;
+        std::shared_ptr<std::vector<unsigned char> > vectorBody;
     };
 }

@@ -2,6 +2,9 @@
 
 #include <cpprest/http_msg.h>
 
+#include <memory>
+#include <vector>
+
 namespace efc {
 	Request::Request(web::http::http_request req) {
 		this->req = req;
@@ -38,24 +41,25 @@ namespace efc {
 		this->req.reply(response).wait();
 	}
 
-	web::json::value Request::extract_json(bool ignore_content_type) const {
-		return this->req.extract_json(ignore_content_type).get();
+	std::shared_ptr<web::json::value> Request::get_json(bool ignore_content_type) {
+		if (this->jsonBody == nullptr && this->stringBody == nullptr && this->vectorBody == nullptr)
+			this->jsonBody = std::make_shared<web::json::value>(this->req.extract_json(ignore_content_type).get());
+
+		return this->jsonBody;
 	}
 
-	utility::string_t Request::extract_string(bool ignore_content_type) {
-		return this->req.extract_string(ignore_content_type).get();
+	std::shared_ptr<utility::string_t> Request::get_string(bool ignore_content_type) {
+		if (this->jsonBody == nullptr && this->stringBody == nullptr && this->vectorBody == nullptr)
+			this->stringBody = std::make_shared<utility::string_t>(this->req.extract_string(ignore_content_type).get());
+
+		return this->stringBody;
 	}
 
-	utf8string Request::extract_utf8string(bool ignore_content_type) {
-		return this->req.extract_utf8string(ignore_content_type).get();
-	}
+	std::shared_ptr<std::vector<unsigned char> > Request::get_vector() {
+		if (this->jsonBody == nullptr && this->stringBody == nullptr && this->vectorBody == nullptr)
+			this->vectorBody = std::make_shared<std::vector<unsigned char> >(this->req.extract_vector().get());
 
-	utf16string Request::extract_utf16string(bool ignore_content_type) {
-		return this->req.extract_utf16string(ignore_content_type).get();
-	}
-
-	std::vector<unsigned char> Request::extract_vector() const {
-		return this->req.extract_vector().get();
+		return this->vectorBody;
 	}
 
 	void Request::add_attribute(const std::string& key, std::shared_ptr<RequestObject> value) {
