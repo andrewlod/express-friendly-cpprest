@@ -8,13 +8,17 @@
       "buildRoot": "${projectDir}\\build",
       "installRoot": "${projectDir}\\build\\install\\${name}",
       "cmakeCommandArgs": "-DCMAKE_TOOLCHAIN_FILE=D:/Usuario/vcpkg/scripts/buildsystems/vcpkg.cmake",
-      "buildCommandArgs": "",
       "ctestCommandArgs": "",
       "variables": [
         {
           "name": "VCPKG_PATH",
           "value": "D:/Usuario/vcpkg",
           "type": "STRING"
+        },
+        {
+          "name": "CMAKE_INSTALL_PREFIX",
+          "value": "D:/Usuario/Downloads/projects/express-friendly-cpprest/build",
+          "type": "PATH"
         }
       ]
     }
