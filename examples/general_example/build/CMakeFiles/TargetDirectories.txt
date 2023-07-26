@@ -1,3 +1,0 @@
-D:/Usuario/Downloads/projects/express-friendly-cpprest/examples/general_example/build/CMakeFiles/efc-general-example.dir
-D:/Usuario/Downloads/projects/express-friendly-cpprest/examples/general_example/build/CMakeFiles/edit_cache.dir
-D:/Usuario/Downloads/projects/express-friendly-cpprest/examples/general_example/build/CMakeFiles/rebuild_cache.dir
