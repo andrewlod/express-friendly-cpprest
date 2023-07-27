@@ -6,6 +6,7 @@
 #include <cpprest/http_msg.h>
 
 #include <iostream>
+#include <string>
 
 using namespace efc;
 
@@ -18,4 +19,8 @@ void ping(Request& req) {
     }
     std::cout << obj->message << std::endl;
     req.reply(web::http::status_codes::OK, "Pong!");
+}
+
+void throw_error(efc::Request& req) {
+    std::string().at(1);
 }
