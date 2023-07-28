@@ -29,7 +29,8 @@ add_executable(${PROJECT_NAME}	"src/main.cpp"
 								"src/Middlewares.cpp"
 								"src/Objects.cpp"
 								"src/Requests.cpp" 
-								"src/ErrorHandlers.cpp")
+								"src/ErrorHandlers.cpp" 
+								"src/Models.cpp")
 
 set(LIBRARIES_INCLUDE_DIRS ${SOURCE_INCLUDE_DIR} ${DEPENDENCIES_INCLUDE_DIR} ${CPPRESTSDK_INCLUDE_DIR} ${STATIC_INCLUDE__DIR})
 

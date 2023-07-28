@@ -1,6 +1,7 @@
 #include "App.hpp"
 #include "Utils.hpp"
 #include "Request.hpp"
+#include "ValidationManager.hpp"
 
 #include <cpprest/http_msg.h>
 
@@ -37,6 +38,7 @@ namespace efc {
 
         utility::string_t path = web::uri::decode(req.relative_uri().path());
         try {
+            ValidationManager::validate(path, *wrappedReq);
             this->route(req.method(), splitPath(path), wrappedReq);
         }
         catch (...) {

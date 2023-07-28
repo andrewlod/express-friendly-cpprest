@@ -14,13 +14,19 @@
 namespace efc {
     class Router {
     public:
-        Router() {}
-        ~Router() {}
+        Router();
+        Router(const utility::string_t& path);
+        ~Router();
 
         void get(const utility::string_t& path, const std::function<void(Request&)> handler);
         void post(const utility::string_t& path, const std::function<void(Request&)> handler);
         void put(const utility::string_t& path, const std::function<void(Request&)> handler);
         void del(const utility::string_t& path, const std::function<void(Request&)> handler);
+
+        void get(const utility::string_t& path, const std::function<void(Request&)> handler, const std::function<void(Request&)> validator);
+        void post(const utility::string_t& path, const std::function<void(Request&)> handler, const std::function<void(Request&)> validator);
+        void put(const utility::string_t& path, const std::function<void(Request&)> handler, const std::function<void(Request&)> validator);
+        void del(const utility::string_t& path, const std::function<void(Request&)> handler, const std::function<void(Request&)> validator);
 
         void use(const utility::string_t& path, const std::function<void(Request&)> handler);
 
@@ -29,6 +35,7 @@ namespace efc {
 
         void registerMiddleware(std::queue<utility::string_t> path, const std::function<void(Request&)> handler);
     private:
+        utility::string_t path;
 
         std::map<utility::string_t, std::unique_ptr<Router> > routers;
 

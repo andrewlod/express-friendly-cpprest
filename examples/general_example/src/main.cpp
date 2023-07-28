@@ -5,6 +5,7 @@
 #include "Middlewares.hpp"
 #include "Requests.hpp"
 #include "ErrorHandlers.hpp"
+#include "Models.hpp"
 
 #include <iostream>
 
@@ -18,6 +19,7 @@ int main(int argc, char const *argv[])
     app.use(L"/", &createSomeStuff);
     app.get(L"/ping", &ping);
     app.get(L"/error-demo", &throw_error);
+    app.post(L"/validation/body/demo", &validation_demo, &ModelDemo::validate);
 
     app.on_error(&onError);
 

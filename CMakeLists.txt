@@ -28,7 +28,9 @@ add_library("${PROJECT_NAME}"	SHARED	"src/App.cpp"
 										"src/InterruptHandler.cpp"
 										"src/Request.cpp"
 										"src/Router.cpp"
-										"src/Utils.cpp")
+										"src/Utils.cpp" 
+										"src/ValidationManager.cpp" 
+										"src/Validator.cpp")
 
 set(LIBRARIES_INCLUDE_DIRS ${SOURCE_INCLUDE_DIR} ${CPPRESTSDK_INCLUDE_DIR} ${STATIC_INCLUDE__DIR})
 

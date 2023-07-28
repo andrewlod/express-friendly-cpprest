@@ -1,12 +1,26 @@
 #include "Router.hpp"
 #include "Constants.hpp"
 #include "Utils.hpp"
+#include "ValidationManager.hpp"
 
 #include <vector>
 #include <queue>
 #include <map>
 
 namespace efc {
+    Router::Router() : path(L"") {
+    
+    }
+
+    Router::Router(const utility::string_t& path) : path(path) {
+
+    }
+
+    Router::~Router() {
+
+    }
+
+    // Without validation
     void Router::get(const utility::string_t& path, const std::function<void(Request&)> handler) {
         this->registerRoute(web::http::methods::GET, splitPath(path), handler);
     }
@@ -21,6 +35,27 @@ namespace efc {
 
     void Router::del(const utility::string_t& path, const std::function<void(Request&)> handler) {
         this->registerRoute(web::http::methods::DEL, splitPath(path), handler);
+    }
+
+    // With validation
+    void Router::get(const utility::string_t& path, const std::function<void(Request&)> handler, const std::function<void(Request&)> validator) {
+        ValidationManager::registerValidator(this->path + path, validator);
+        this->get(path, handler);
+    }
+
+    void Router::post(const utility::string_t& path, const std::function<void(Request&)> handler, const std::function<void(Request&)> validator) {
+        ValidationManager::registerValidator(this->path + path, validator);
+        this->post(path, handler);
+    }
+
+    void Router::put(const utility::string_t& path, const std::function<void(Request&)> handler, const std::function<void(Request&)> validator) {
+        ValidationManager::registerValidator(this->path + path, validator);
+        this->put(path, handler);
+    }
+
+    void Router::del(const utility::string_t& path, const std::function<void(Request&)> handler, const std::function<void(Request&)> validator) {
+        ValidationManager::registerValidator(this->path + path, validator);
+        this->del(path, handler);
     }
 
     void Router::use(const utility::string_t& path, const std::function<void(Request&)> handler) {
@@ -39,7 +74,7 @@ namespace efc {
 
         utility::string_t first = path.front();
         if (!this->routers.count(first)) {
-            this->routers[first] = std::make_unique<Router>();
+            this->routers[first] = std::make_unique<Router>(this->path + first);
         }
 
         path.pop();
@@ -85,7 +120,7 @@ namespace efc {
 
         utility::string_t first = path.front();
         if (!this->routers.count(first)) {
-            this->routers[first] = std::make_unique<Router>();
+            this->routers[first] = std::make_unique<Router>(this->path + first);
         }
 
         path.pop();
