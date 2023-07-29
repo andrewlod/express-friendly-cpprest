@@ -7,6 +7,9 @@
 namespace efc {
 	class InterruptHandler {
 	public:
+		/*
+		Waits until an interrupt signal is triggered
+		*/
 		static void waitForInterrupt();
 		static void onSignal(int signal);
 	private:
